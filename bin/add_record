@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+# check if the command line options are correct for add_record operation
+import argparse
+import os
+import sys
+parser = argparse.ArgumentParser(description="Use add_record option to add new record")
+parser.add_argument('--amount', type=float, help='Amount to spend on something')
+parser.add_argument('--tag', type=str, help='Reason for spending that amount')
+args = parser.parse_args()
+
+
+if not args.amount or not args.tag:
+ parser.print_help()
+ sys.exit()
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
+from command_args import add_record
+add_record.process_request(args)
+
+
+
+

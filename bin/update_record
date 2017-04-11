@@ -1,0 +1,29 @@
+#!/usr/bin/python
+
+
+# check if the command line options are correct for update_record operation
+import argparse
+import os
+import sys
+parser = argparse.ArgumentParser(description="Use update_record option to delete a record")
+parser.add_argument('--year', type=str, help='year of the record to be updated')
+parser.add_argument('--month', type=str, help='month of the year record to be updated')
+parser.add_argument('--day', type=str, help='day of the month record to be updated')
+parser.add_argument('--id', type=str, help='day id of the record to be updated')
+parser.add_argument('--amount', type=float, help='Amount to spend on something')
+parser.add_argument('--tag', type=str, help='Reason for spending that amount')
+
+args = parser.parse_args()
+
+if args.year and args.month and not args.day:
+  parser.print_help()
+  sys.exit()
+
+if not args.amount or not args.tag:
+ parser.print_help()
+ sys.exit()
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
+from command_args import update_record
+update_record.process_request(args)
+

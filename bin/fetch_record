@@ -1,0 +1,20 @@
+#!/usr/bin/python
+
+# check if the command line options are correct for fetch_record operation
+import argparse
+import os
+import sys
+parser = argparse.ArgumentParser(description="Use fetch_record option to fetch all record")
+parser.add_argument('--year', type=str, help='Year you want to see the record, it should be of the format yyyy')
+parser.add_argument('--month', type=str, help='month name you want to see the record, it should to string eg. april')
+parser.add_argument('--day', type=int, help='day of the month you want see the record, it should be entered in yyyy.mm.dd format')
+args = parser.parse_args()
+
+if args.year and args.month and not args.day:
+  parser.print_help()
+  sys.exit()
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
+from command_args import fetch_record
+fetch_record.process_request(args)
+

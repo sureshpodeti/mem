@@ -1,0 +1,23 @@
+#!/usr/bin/python
+
+
+# check if the command line options are correct for delete_record operation
+import argparse
+import os
+import sys
+parser = argparse.ArgumentParser(description="Use delete_record option to delete a record")
+parser.add_argument('--year', type=str, help='year of the record to be deleted')
+parser.add_argument('--month', type=str, help='month of the year record to be deleted')
+parser.add_argument('--day', type=str, help='day of the month record to be deleted')
+parser.add_argument('--id', nargs='+', type=str, help='day id of the record to be deleted')
+args = parser.parse_args()
+
+if args.year and args.month and not args.day:
+  parser.print_help()
+  sys.exit()
+
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
+from command_args import delete_record
+delete_record.process_request(args)
+
