@@ -1,0 +1,16 @@
+#!/usr/bin/python
+
+# check if the command line options are correct for expenses_summary operation
+import argparse
+import os
+import sys
+parser = argparse.ArgumentParser(description="Use expenses_summary option to get summary of expenses")
+parser.add_argument('--year', type=str, help='Year you want to see the expenses summary, it should be of the format yyyy')
+parser.add_argument('--month', type=str, help='month name you want to see the expenses summary, it should to string eg. April')
+
+args = parser.parse_args()
+
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'lib'))
+from command_args import expenses_summary
+expenses_summary.process_request(args)
+

@@ -4,7 +4,7 @@ import datetime
 import os
 import sys
 from progressive.bar import Bar
-from tabulate import tabulate
+
 
 
 def process_request(obj):
@@ -19,10 +19,6 @@ def process_request(obj):
  else:
   _month = datetime.datetime.now().strftime("%B")
 
- if obj.day:
-  _day = obj.day
- else:
-  _day = datetime.datetime.now().strftime("%d")
 
  # create a database connection
  path = os.path.join(os.path.dirname(__file__,), '..', '..', 'data', _year+'.db')
@@ -42,26 +38,21 @@ def process_request(obj):
   prog.cursor.restore()
   prog.draw(i)
 
- if obj.day:
-  #display records 
-  cursor = conn.execute("SELECT * FROM '%s' WHERE DAY='%d'" %(_month, int(_day)))
- else:
-  cursor = conn.execute("SELECT * FROM '%s'" % _month)
+ # fetching month records 
+ cursor = conn.execute("SELECT * FROM '%s'" % _month)
+ 
  if cursor: 
   print "Successully fetched details"
  else:
   print "No details to fetch"
   sys.exit()
+
+ _total = 0
  # displaying results in nice tabular format [TODO]
- headers = ['id', 'day', 'amount', 'tag']
- data = []
  for row in cursor:
-  data.append(row)
- 
- # displaying the table
- print tabulate(data, headers, tablefmt="fancy_grid") 
+  _total += row[2]
 
-
+ print "total expenses of month {} = {}".format(_month, str(_total))
  # graphical representations [TODO]
  # close the database connection
  conn.close()
